@@ -1,4 +1,4 @@
-name: git-bob acting
+name: reagent acting
 
 on:
   issues:
@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v5
 
     - name: Print pull request number
       run: |  
@@ -33,9 +33,9 @@ jobs:
         echo "Job ID - ${{ github.job_id }}"
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.x
+        python-version: 3.12
 
     - name: Install dependencies
       run: |
@@ -44,11 +44,11 @@ jobs:
         pip install -r requirements.txt
         
 
-    - name: Run git-bob
+    - name: Run reagent
       env:
-        GIT_BOB_AGENT_NAME: "git-bob"
-        GIT_BOB_EXTENSIONS_FILTER_REGEXP: ".*"
-        GIT_BOB_LLM_NAME: "${{ secrets.GIT_BOB_LLM_NAME }}"
+        REAGENT_AGENT_NAME: "reagent"
+        REAGENT_EXTENSIONS_FILTER_REGEXP: ".*"
+        REAGENT_LLM_NAME: "${{ secrets.REAGENT_LLM_NAME }}"
         ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}"
         GOOGLE_API_KEY: "${{ secrets.GOOGLE_API_KEY }}"
         OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
@@ -65,7 +65,7 @@ jobs:
         TWINE_USERNAME: "${{ secrets.TWINE_USERNAME }}"
         TWINE_PASSWORD: "${{ secrets.TWINE_PASSWORD }}"
         SYSTEM_MESSAGE: |
-          You are an extremely skilled python developer. Your name is git-bob. You are sometimes called github-actions bot.
+          You are an extremely skilled python developer. Your name is reagent. You are sometimes called github-actions bot.
           You can solve programming tasks and review code.
           When asked to solve a specific problem, you keep your code changes minimal and only solve the problem at hand.
           You cannot retrieve information from other sources but from github.com.
@@ -77,4 +77,4 @@ jobs:
           * If the image shows clearly distinct objects in its channels, these structures are listed for each channel individually.
           * You speculate how the image was acquired.
       run: |
-        git-bob github-action ${{ github.repository }} ${{ github.event.pull_request.number }} ${{ github.event.issue.number }}
+        reagent github-action ${{ github.repository }} ${{ github.event.pull_request.number }} ${{ github.event.issue.number }}
